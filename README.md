@@ -3,6 +3,20 @@
 This project performs **automatic extraction of geospatial features** (Buildings, Roads, Water Bodies) from large satellite images using deep learning models.
 
 ---
+## 🚀 Try It Yourself (Input + Outputs)
+
+📦 **Download Sample Data & Results (GeoTIFF + GPKG):**
+👉 https://drive.google.com/drive/folders/1VUOgMMm7exBNOA2OdNyFAkyRkjgDfj8L?usp=sharing
+
+This folder contains:
+
+* 🛰️ Sample input GeoTIFF image
+* 🏢 Building segmentation output
+* 🛣️ Road extraction output
+* 🌊 Water body detection output
+* 📍 Vector shapefiles (.gpkg)
+
+⚠️ Note: Files are large and hosted externally due to GitHub size limits.
 
 ## 🚀 Features
 
