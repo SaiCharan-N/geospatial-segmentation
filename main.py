@@ -1,7 +1,7 @@
 from src.model_loader import load_model
 from inference import predict_large_image
 import os
-IMAGE_PATH = os.path.join("data", "input_images", "sample.tif")
+IMAGE_PATH = os.path.join("data", "input_images", "sample.tif")#change based on you tif file name
 if __name__ == "__main__":
     print("Select model:")
     print("1. building")
