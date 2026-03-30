@@ -92,6 +92,12 @@ def process_tile(tile, model, model_type):
 # =============================
 def predict_large_image(image_path, model, model_type, output_tif, output_gpkg):
 
+    model = model.to(DEVICE)
+    model.eval()
+
+    # 🔥 FIX: FP16 for road
+    if model_type == "road" and torch.cuda.is_available():
+        model = model.half()
     config = get_params(model_type)
     tile_size = config['tile_size']
     stride = config['stride']
