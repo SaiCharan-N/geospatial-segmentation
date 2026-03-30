@@ -1,16 +1,7 @@
 from src.model_loader import load_model
 from inference import predict_large_image
 import os
-
-IMAGE_PATH = r"C:\Users\HP\Desktop\Project\data\input_images\Badetumnar.tif"
-
-# You can update this depending on where models actually sit or use relative paths.
-MODEL_PATHS = {
-    "building": r"E:\project2\building.pth",
-    "road": r"E:\project2\road.pth",
-    "water": r"E:\project2\water.pth"
-}
-
+IMAGE_PATH = os.path.join("data", "input_images", "sample.tif")
 if __name__ == "__main__":
     print("Select model:")
     print("1. building")
