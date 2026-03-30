@@ -30,6 +30,7 @@ Includes:
 * 🛣️ Road extraction outputs
 * 🌊 Water body predictions
 * 📍 Vector shapefiles (.gpkg)
+(THESE MASKS AND SHAPE FILES ARE GENERATED USING OUR MODELS)
 
 💡 You can directly open the `.gpkg` files in QGIS to visualize extracted features.
 
