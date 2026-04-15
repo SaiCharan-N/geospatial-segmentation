@@ -14,42 +14,85 @@ To automate extraction of geospatial features from satellite imagery for:
 - 🌍 GIS-based spatial intelligence systems  
 
 ---
+## 🧠 System Architecture (Designed for Ultra-Large Satellite Images)
 
-## 🧠 System Overview (4-Model Geospatial AI Pipeline)
-
-This project implements a modular multi-stage inference system designed for high-resolution satellite imagery.
-🛰️ GeoTIFF Input (10k × 20k+ resolution)
-↓
-🔲 Tiling Engine (memory-efficient patch inference)
-↓
-🧠 Model Router (task-based selection)
-↓
-┌────────────────────────────────────────────┐
-│ Deep Learning Models │
-│ │
-│ 🏢 Building Segmentation (UNet/CNN) │
-│ 🛣️ Road Segmentation (DINOv2-based) │
-│ 🌊 Water Segmentation (DeepLabV3+) │
-│ 🌊 Water Line Extraction (82 IoU) │
-│ 🛣️ Road Centerline Extraction (64 IoU) │
-└────────────────────────────────────────────┘
-↓
-🧹 Post-processing Layer
-
-Morphological filtering
-Skeletonization (centerlines)
-Contour extraction
-
-Polygonization
-
-  ↓
-
-🗺️ GIS Output Layer
-
-GeoTIFF masks
-GeoPackage (.gpkg)
+This system is specifically designed to process **very large GeoTIFF images (10k × 20k+ resolution)** using memory-efficient inference.
 
 ---
+
+### 🛰️ 1. Input Layer
+```
+GeoTIFF Image (10k × 20k+ resolution)
+```
+
+---
+
+### 🔲 2. Tiling Engine (Critical for Large Images)
+- Splits large satellite images into overlapping patches
+- Enables GPU-safe inference
+- Prevents memory overflow
+- Ensures spatial consistency during reconstruction
+
+```
+Large Image → [Tile Generator] → Small Patches
+```
+
+---
+
+### 🧠 3. Model Routing Layer
+Dynamically selects the appropriate deep learning model based on task:
+
+```
+┌────────────────────────────────────────────┐
+│              Model Router                  │
+├────────────────────────────────────────────┤
+│ 🏢 Building Segmentation (UNet / CNN)      │
+│ 🛣️ Road Segmentation (DINOv2-based)        │
+│ 🌊 Water Segmentation (DeepLabV3+)         │
+│ 🌊 Water Line Extraction (82 IoU)          │
+│ 🛣️ Road Centerline Extraction (64 IoU)     │
+└────────────────────────────────────────────┘
+```
+
+---
+
+### 🧹 4. Post-Processing Layer
+Applied after inference to refine outputs:
+
+- Morphological filtering (noise removal)
+- Skeletonization (for road centerlines)
+- Contour extraction
+- Polygonization (vector conversion)
+
+---
+
+### 🗺️ 5. GIS Output Layer
+Final outputs are converted into GIS-compatible formats:
+
+```
+Raster Outputs:
+- Segmentation Masks (.tif)
+
+Vector Outputs:
+- GeoPackage (.gpkg)
+```
+
+---
+
+### ⚡ End-to-End Flow
+```
+GeoTIFF Input
+      ↓
+Tiling Engine
+      ↓
+Model Router
+      ↓
+Deep Learning Models
+      ↓
+Post-processing
+      ↓
+GIS Outputs (.tif + .gpkg)
+```
 
 ## 🚀 Key Features
 
