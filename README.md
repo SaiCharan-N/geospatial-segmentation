@@ -1,237 +1,144 @@
-# 🛰️ Geospatial Feature Extraction using Deep Learning
+Geospatial Feature Extraction using Multi-Model Deep Learning Pipeline
 
-🚀 End-to-end pipeline for extracting buildings, roads, and water bodies from large satellite images and converting them into GIS-ready vector data.
+🚀 A scalable end-to-end geospatial AI system for extracting buildings, road networks, road centerlines, and water bodies from ultra-high-resolution satellite imagery and converting outputs into GIS-ready vector formats (.gpkg).
 
----
+🏆 Hackathon Objective (IIT Tirupati)
 
-## 📌 Problem Statement
+To automate extraction of geospatial features from satellite imagery for:
 
-Manual extraction of geospatial features such as buildings, roads, and water bodies from satellite imagery is time-consuming and not scalable.
+🏙️ Smart city planning
+🛣️ Road network analysis & mapping
+🌊 Water resource monitoring
+🌍 GIS-based spatial intelligence systems
+🧠 System Overview (4-Model Geospatial AI Pipeline)
 
-This project automates feature extraction using deep learning to support:
+This project implements a modular multi-stage inference system designed for high-resolution satellite imagery.
 
-* 🏙️ Urban planning
-* 🛣️ Infrastructure development
-* 🌊 Environmental monitoring
+🛰️ GeoTIFF Input (10k × 20k+ resolution)
+        ↓
+🔲 Tiling Engine (memory-efficient patch inference)
+        ↓
+🧠 Model Router (task-based selection)
+        ↓
+┌────────────────────────────────────────────┐
+│            Deep Learning Models            │
+│                                            │
+│ 🏢 Model 1: Building Segmentation (UNet/CNN)  
+│ 🛣️ Model 2: Road Segmentation (DINOv2-based)  
+│ 🌊 Model 3: Water Segmentation (DeepLabV3+)  
+│ 🌊 Model 4: Water Line Extraction Model (82 IoU)  
+│ 🛣️ Model 5: Road Centerline Extraction (64 IoU)  
+└────────────────────────────────────────────┘
+        ↓
+🧹 Post-processing Layer
+- Morphological filtering
+- Skeletonization (for centerlines)
+- Contour extraction
+- Polygonization
 
-The system processes large GeoTIFF images and generates both raster and vector outputs suitable for GIS applications.
-
----
-
-## 🚀 Try It Yourself (Real Data + Outputs)
-
-👉 **Download full-resolution input & predictions:**
-https://drive.google.com/drive/folders/1VUOgMMm7exBNOA2OdNyFAkyRkjgDfj8L?usp=sharing
-
-Includes:
-
-* 🛰️ High-resolution satellite GeoTIFF (~300MB)
-* 🏢 Building segmentation results
-* 🛣️ Road extraction outputs
-* 🌊 Water body predictions
-* 📍 Vector shapefiles (.gpkg)
-(THESE MASKS AND SHAPE FILES ARE GENERATED USING OUR MODELS)
-
-💡 You can directly open the `.gpkg` files in QGIS to visualize extracted features.
-
-⚠️ Hosted externally due to GitHub file size limits.
-
----
-
-## 📊 Results
-
-* ✅ Successfully processed **10k × 20k+ resolution satellite images**
-* ⚡ Efficient tiling-based inference without memory overflow
-* 🎯 High-quality segmentation performance:
-
-  * 🏢 Building IoU: **81%**
-  * 🛣️ Road IoU: **79%**
-  * 🌊 Water IoU: **79%**
-* 🗺️ Generated GIS-compatible vector outputs (GeoPackage)
-
-These outputs can be directly used in mapping and planning tools.
-
----
-
-## 🚀 Key Features
-
-* 🏢 Accurate Building Segmentation
-* 🛣️ Road Network Extraction using DINOv2
-* 🌊 Water Body Detection using DeepLabV3+
-* 🧠 Handles ultra high-resolution satellite imagery
-* 🗺️ Outputs both raster masks and vector shapefiles
-
----
-
-## 📂 Project Structure
-
-```
+        ↓
+🗺️ GIS Output Layer
+- GeoTIFF masks
+- GeoPackage (.gpkg)
+🚀 Key Features
+🧠 4-model specialized geospatial AI system
+🛰️ Handles ultra-large satellite images (10k × 20k+)
+🔲 Tile-based inference (memory-safe processing)
+🔁 Multi-model routing architecture
+🧭 Road centerline + road mask dual representation
+🌊 Water segmentation + water boundary refinement
+🗺️ GIS-ready vector export (.gpkg for QGIS/ArcGIS)
+⚡ Optimized stitching + post-processing pipeline
+🧠 Models & Performance
+Feature	Model Type	Task	IoU
+🏢 Buildings	CNN / UNet	Building footprint segmentation	~81%
+🛣️ Roads	DINOv2-based model	Road surface segmentation	~79%
+🌊 Water Bodies	DeepLabV3+	Water region segmentation	~82%
+🌊 Water Line Model	Refinement CNN	Water boundary extraction	82%
+🛣️ Road Centerline Model	Skeleton-based CNN	Road graph centerline extraction	64%
+📂 Project Structure
 Project/
 │
 ├── data/
 │   ├── input_images/
-│   │   └── sample.tif
-│   └── output/
-│       ├── building_output.tif
-│       ├── road_output.tif
-│       └── water_output.tif
+│   ├── output/
 │
 ├── src/
-│   ├── model_loader.py
-│   ├── inference.py
-│   ├── road_model.py
-│   ├── water_body_model.py
+│   ├── model_router.py
+│   ├── inference_pipeline.py
 │   ├── building_model.py
-│   └── utils.py
+│   ├── road_model.py
+│   ├── water_model.py
+│   ├── water_line_model.py
+│   ├── road_centerline_model.py
+│   ├── utils.py
 │
 ├── main.py
 ├── requirements.txt
 └── README.md
-```
-
----
-
-## ⚙️ Installation
-
-```bash
-git clone <your-repo-link>
-cd Project
+⚙️ Installation
+git clone https://github.com/SaiCharan-N/geospatial-segmentation.git
+cd geospatial-segmentation
 
 python -m venv venv
-venv\Scripts\activate   # Windows
+venv\Scripts\activate
 
 pip install -r requirements.txt
-```
-
----
-
-## ▶️ How to Run
-
-```bash
+▶️ How to Run
 python main.py
-```
 
-You will see:
+Workflow:
 
-```
-Select model:
-1. building
-2. road
-3. water
-```
+Select model or pipeline mode
+Load GeoTIFF input
+Run tiled inference
+Generate segmentation outputs
+Export GIS-ready files
+📥 Input
 
-Enter your choice.
+Place satellite GeoTIFF files here:
 
----
-
-## 📥 Input
-
-Place your GeoTIFF file inside:
-
-```
 data/input_images/
-```
 
 Example:
 
-```
 data/input_images/sample.tif
-```
+📤 Output
 
----
+Generated outputs:
 
-## 📤 Output
+building_output.tif
+road_output.tif
+water_output.tif
+water_line_output.tif
+road_centerline_output.tif
+.gpkg GIS vector files
+⚡ Technical Innovations
+🔲 Sliding window tiled inference for massive images
+🧠 Multi-model routing architecture
+🧭 Dual road representation (surface + centerline graph)
+🌊 Water boundary refinement model
+🧹 Skeletonization-based centerline extraction
+🗺️ Raster → Vector GIS conversion pipeline
+⚡ Memory-efficient inference for large-scale deployment
+📌 Challenges Solved
+Processing ultra-high-resolution satellite imagery (10k × 20k+)
+Multi-model consistency across spatial outputs
+Road centerline extraction from segmentation masks
+Memory-safe inference under GPU constraints
+Converting deep learning outputs into GIS-compatible formats
+🚀 Future Improvements
+🌐 Web-based GIS visualization dashboard
+🧭 Road graph network extraction (shortest path analysis)
+☁️ Cloud deployment (FastAPI + Docker)
+📡 Real-time satellite inference API
+⚡ Batch inference optimization pipeline
+👨‍💻 Author
 
-Outputs are generated in the project root:
+Sai Charan
+AI & ML Engineer (Student)
+Focus: Computer Vision | Geospatial AI | Deep Learning Systems
 
-* `building_output.tif`
-* `road_output.tif`
-* `water_output.tif`
-* Corresponding `.gpkg` vector files
+🏁 Final Impact Statement
 
----
-
-## 🧠 Models Used
-
-### 🏢 Building Model
-
-* CNN / UNet-based segmentation
-
-### 🛣️ Road Model
-
-* DINOv2 (Vision Transformer)
-* Lightweight custom decoder
-
-### 🌊 Water Model
-
-* DeepLabV3+
-* ResNet34 backbone
-
----
-
-## 🧰 Tech Stack
-
-* Python
-* PyTorch
-* segmentation-models-pytorch
-* Rasterio
-* GeoPandas
-* OpenCV
-* NumPy
-
----
-
-## ⚡ Optimizations
-
-* Tiling-based inference for large images
-* FP16 inference for faster road detection
-* Dynamic padding for model compatibility
-* Overlap-based stitching
-* Noise removal & polygon refinement
-
----
-
-## 📊 Sample Outputs
-
-Sample outputs are available in:
-
-```
-data/output/
-```
-
-For full-resolution results:
-👉 Refer to the Google Drive link above
-
----
-
-## 🧩 Challenges Solved
-
-* Handling **huge satellite images (10k × 20k+)**
-* Managing different model constraints (patch sizes)
-* Efficient tiling + stitching
-* Memory-safe inference
-* Clean vector (GIS-ready) generation
-
----
-
-## 📌 Future Improvements
-
-* Batch tile inference (3–5× faster)
-* Road network graph extraction
-* Web-based visualization
-* Deployment using Flask / FastAPI
-
----
-
-## 👨‍💻 Author
-
-**Sai Charan**
-
-* AI & ML Student
-* Focus: Computer Vision, Geospatial AI
-
----
-
-## ⭐ If you like this project
-
-Give it a star ⭐ on GitHub
+This project demonstrates a production-grade geospatial intelligence system capable of converting raw satellite imagery into structured GIS data using a multi-model deep learning architecture, enabling scalable real-world deployment in urban planning and environmental monitoring.
