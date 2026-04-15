@@ -78,26 +78,27 @@ GeoPackage (.gpkg)
 
 ## 📂 Project Structure
 
-
+```
 Project/
 │
 ├── data/
-│ ├── input_images/
-│ ├── output/
+│   ├── input_images/
+│   ├── output/
 │
 ├── src/
-│ ├── model_router.py
-│ ├── inference_pipeline.py
-│ ├── building_model.py
-│ ├── road_model.py
-│ ├── water_model.py
-│ ├── water_line_model.py
-│ ├── road_centerline_model.py
-│ ├── utils.py
+│   ├── model_router.py
+│   ├── inference_pipeline.py
+│   ├── building_model.py
+│   ├── road_model.py
+│   ├── water_model.py
+│   ├── water_line_model.py
+│   ├── road_centerline_model.py
+│   └── utils.py
 │
 ├── main.py
 ├── requirements.txt
 └── README.md
+```
 
 
 ---
